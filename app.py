@@ -256,6 +256,22 @@ html, body, [class*="css"] {
     border-bottom: 1px solid rgba(80,200,120,0.15);
 }
 
+/* ── Fix low-contrast body text inside report/feedback panels ── */
+.report-panel p, .report-panel li, .report-panel span,
+.feedback-panel p, .feedback-panel li, .feedback-panel span {
+    color: #e8e4dc !important;
+    opacity: 1 !important;
+}
+.report-panel strong, .feedback-panel strong {
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+.report-panel h1, .report-panel h2, .report-panel h3, .report-panel h4,
+.feedback-panel h1, .feedback-panel h2, .feedback-panel h3, .feedback-panel h4 {
+    color: #f0ebe0 !important;
+    opacity: 1 !important;
+}
+
 /* ── Progress text ── */
 .stSpinner > div { color: #ff8c32 !important; }
 
