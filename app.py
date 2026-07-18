@@ -87,19 +87,33 @@ html, body, [class*="css"] {
 }
 
 /* ── Streamlit input overrides ── */
-.stTextInput > div > div > input {
-    background: rgba(255,255,255,0.05) !important;
+.stTextInput > div > div > input,
+.stTextInput input[type="text"] {
+    background-color: #1a1815 !important;
+    background: #1a1815 !important;
     border: 1px solid rgba(255,140,50,0.25) !important;
     border-radius: 10px !important;
     color: #f0ebe0 !important;
+    -webkit-text-fill-color: #f0ebe0 !important;
     font-family: 'DM Sans', sans-serif !important;
     font-size: 1rem !important;
     padding: 0.75rem 1rem !important;
     transition: border-color 0.2s, box-shadow 0.2s !important;
+    caret-color: #ff8c32 !important;
 }
 .stTextInput > div > div > input:focus {
     border-color: #ff8c32 !important;
     box-shadow: 0 0 0 3px rgba(255,140,50,0.12) !important;
+}
+.stTextInput input:-webkit-autofill,
+.stTextInput input:-webkit-autofill:hover,
+.stTextInput input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px #1a1815 inset !important;
+    -webkit-text-fill-color: #f0ebe0 !important;
+}
+.stTextInput input::placeholder {
+    color: #706860 !important;
+    opacity: 1 !important;
 }
 .stTextInput > label {
     font-family: 'DM Mono', monospace !important;
