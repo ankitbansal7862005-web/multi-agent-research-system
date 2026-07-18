@@ -4,6 +4,16 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from tools import web_search , scrape_url 
 from dotenv import load_dotenv
+from urllib.parse import urlparse, urlunparse
+from tenacity import retry, stop_after_attempt, wait_fixed
+
+def clean_url(url: str) -> str:
+    parsed = urlparse(url)
+    return urlunparse(parsed._replace(fragment=""))
+
+@retry(stop=stop_after_attempt(3), wait=wait_fixed(2))
+def safe_invoke(agent, input_data):
+    return agent.invoke(input_data)
 
 load_dotenv()
 

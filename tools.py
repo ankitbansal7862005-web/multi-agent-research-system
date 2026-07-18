@@ -5,6 +5,7 @@ from tavily import TavilyClient
 import os 
 from dotenv import load_dotenv
 from rich import print
+from urllib.parse import urlparse, urlunparse
 load_dotenv()
 
 tavily = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
@@ -23,10 +24,20 @@ def web_search(query : str) -> str:
     
     return "\n----\n".join(out)
 
+def _clean_url(url: str) -> str:
+    """Strip fragments/whitespace and ensure the URL has a scheme, to avoid
+    malformed tool-call payloads breaking on special characters like '#'."""
+    url = url.strip().strip('"').strip("'")
+    parsed = urlparse(url)
+    if not parsed.scheme:
+        parsed = urlparse("https://" + url)
+    return urlunparse(parsed._replace(fragment=""))
+
 @tool
 def scrape_url(url: str) -> str:
     """Scrape and return clean text content from a given URL for deeper reading."""
     try:
+        url = _clean_url(url)
         resp = requests.get(url, timeout=8, headers={"User-Agent": "Mozilla/5.0"})
         soup = BeautifulSoup(resp.text, "html.parser")
         for tag in soup(["script", "style", "nav", "footer"]):
@@ -34,4 +45,3 @@ def scrape_url(url: str) -> str:
         return soup.get_text(separator=" ", strip=True)[:3000]
     except Exception as e:
         return f"Could not scrape URL: {str(e)}"
-
